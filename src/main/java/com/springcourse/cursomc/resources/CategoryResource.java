@@ -4,25 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.springcourse.cursomc.domain.Category;
+import com.springcourse.cursomc.service.CategoryService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController //define o controlador REST no endpoint /categorias, ou seja, localhost:8080/categorias, para esse caso
 @RequestMapping(value="/categories")
-public class CategoryResource {
-  
-  @RequestMapping(method = RequestMethod.GET) //Informa qual o método vc quer do HTTP, nesse caso, um GET.
-  public List<Category> listar(){
-    Category cat1 = new Category(1, "Informática");
-    Category cat2 = new Category(2, "Escritório");
+public class CategoryResource {  
+  @Autowired
+  private CategoryService service;
 
-    List<Category> list = new ArrayList<>();
-    list.add(cat1);
-    list.add(cat2);
+  @RequestMapping(value = "/{id}", method = RequestMethod.GET) //Informa qual o método vc quer do HTTP, nesse caso, um GET.
+  public ResponseEntity<?> find(@PathVariable Integer id){
+    Category obj = service.search(id);
 
-    return list;
+    return ResponseEntity.ok().body(obj);
 
   }
 }
