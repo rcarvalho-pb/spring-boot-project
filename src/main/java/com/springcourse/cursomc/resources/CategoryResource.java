@@ -21,6 +21,7 @@ public class CategoryResource {
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET) //Informa qual o método vc quer do HTTP, nesse caso, um GET.
   public ResponseEntity<?> find(@PathVariable Integer id){
+  
     Category obj = service.search(id);
 
     return ResponseEntity.ok().body(obj);
